@@ -57,7 +57,7 @@ char	*get_next_line(int fd)
 	temp = init_s(s, fd);
 	if (!temp)
 		return (0);
-	if (!has_newline(temp))
+	if (has_newline(temp))
 		return (temp);
 	buff = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buff)
