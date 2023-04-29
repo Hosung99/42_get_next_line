@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 13:10:38 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/29 14:12:46 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/29 16:18:18 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,24 @@ int	do_read(char *buff, int fd)
 	return (read_size);
 }
 
+int	init_b(char *temp, char **buff, int *check, int fd)
+{
+	*buff = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!*buff)
+	{
+		free(temp);
+		return (0);
+	}
+	*check = do_read(*buff, fd);
+	if (*check == -1 || (*check == 0 && ft_strlen(temp) == 0))
+	{
+		free(temp);
+		free(*buff);
+		return (0);
+	}
+	return (1);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	s[BUFFER_SIZE + 1];
@@ -51,31 +69,17 @@ char	*get_next_line(int fd)
 	int			check;
 
 	temp = init_s(s, fd);
-	if (!temp)
-		return (0);
-	if (has_newline(temp))
+	if (!temp || has_newline(temp))
 		return (temp);
-	buff = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buff)
-	{
-		free(temp);
+	if (!init_b(temp, &buff, &check, fd))
 		return (0);
-	}
-	check = do_read(buff, fd);
-	if (check == -1 || (check == 0 && ft_strlen(temp) == 0))
-	{
-		free(temp);
-		free(buff);
-		return (0);
-	}
 	while (check > 0)
 	{
 		if (has_newline(buff))
 		{
 			ft_strlcpy(s, &buff[ft_strlen(buff)], check + 1 - ft_strlen(buff));
 			temp = ft_strjoin(temp, buff, ft_strlen(buff));
-			free(buff);
-			return (temp);
+			break ;
 		}
 		temp = ft_strjoin(temp, buff, ft_strlen(buff));
 		check = do_read(buff, fd);
