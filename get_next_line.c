@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 13:10:38 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/28 18:12:17 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/29 14:12:46 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,8 @@ int	do_read(char *buff, int fd)
 	int		read_size;
 
 	read_size = (int)read(fd, buff, BUFFER_SIZE);
-	if (read_size == 0)
+	if (read_size <= 0)
 		return (read_size);
-	else if (read_size <= -1)
-	{
-		return (read_size);
-	}
 	buff[read_size] = 0;
 	return (read_size);
 }
@@ -57,7 +53,7 @@ char	*get_next_line(int fd)
 	temp = init_s(s, fd);
 	if (!temp)
 		return (0);
-	if (!has_newline(temp))
+	if (has_newline(temp))
 		return (temp);
 	buff = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buff)
