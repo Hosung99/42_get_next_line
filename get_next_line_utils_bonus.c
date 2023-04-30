@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:32 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 20:41:03 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 21:37:42 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 int	has_newline(char *temp)
 {
 	int	index;
-
+	
 	index = 0;
 	while (temp[index])
 	{

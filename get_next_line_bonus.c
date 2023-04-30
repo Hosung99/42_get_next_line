@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:02 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 21:12:12 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 21:36:29 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,7 @@ char	*get_next_line(int fd)
 	
 	list = init_list(&head, fd);
 	if (!list)
-	{
-		free_targetlist(&head, fd);
 		return (0);
-	}
 	temp = init_s(list->s);
 	if (!temp)
 	{
@@ -146,13 +143,11 @@ char	*get_next_line(int fd)
 			ft_strlcpy(list->s, &buff[ft_strlen(buff)], check + 1 - ft_strlen(buff));
 			temp = ft_strjoin(temp, buff, ft_strlen(buff));
 			if (!temp)
-				return (0);
+				free_targetlist(&head, fd);
 			free(buff);
 			return (temp);
 		}
 		temp = ft_strjoin(temp, buff, ft_strlen(buff));
-		if (!temp)
-			return (0);
 		check = do_read(buff, fd);
 	}
 	free(buff);
