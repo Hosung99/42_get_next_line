@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:13 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 20:34:10 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 22:19:09 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_list
 }	t_list;
 
 char	*get_next_line(int fd);
-char	*init_s(char *s);
+char	*init_s(char *s, int fd);
 int		init_b(char *temp, char **buff, int *check, int fd);
 int		do_read(char *buff, int fd);
 int		has_newline(char *temp);

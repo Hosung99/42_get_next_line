@@ -6,33 +6,33 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:32 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 21:37:42 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 22:09:59 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*temp;
+// void	ft_lstadd_back(t_list **lst, t_list *new)
+// {
+// 	t_list	*temp;
 
-	temp = *lst;
-	if (!*lst)
-	{
-		*lst = new;
-		new->next = 0;
-		return ;
-	}
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new;
-	new->next = 0;
-}
+// 	temp = *lst;
+// 	if (!*lst)
+// 	{
+// 		*lst = new;
+// 		new->next = 0;
+// 		return ;
+// 	}
+// 	while (temp->next)
+// 		temp = temp->next;
+// 	temp->next = new;
+// 	new->next = 0;
+// }
 
 int	has_newline(char *temp)
 {
 	int	index;
-	
+
 	index = 0;
 	while (temp[index])
 	{

@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:02 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 21:36:29 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 22:19:02 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ t_list	*init_list(t_list **head, int fd)
 	t_list	*find;
 	t_list	*temp;
 
-	if (fd < 0 || !head)
-		return (0);
 	temp = *head;
 	while (temp)
 	{
@@ -60,17 +58,26 @@ t_list	*init_list(t_list **head, int fd)
 	find->fd = fd;
 	find->s[0] = 0;
 	find->next = 0;
-	ft_lstadd_back(head, find);
-	//printf("temp fd : %d head fd :%d \n",fd, (*head)->fd);
+	if (!*head)
+		*head = find;
+	else
+	{
+		temp = *head;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = find;
+	}
 	return (find);
 }
 
-char	*init_s(char *s)
+char	*init_s(char *s, int fd)
 {
 	int		total_len;
 	int		len;
 	char	*temp;
 
+	if (fd < 0)
+		return (0);
 	total_len = 0;
 	len = ft_strlen(s);
 	temp = (char *)malloc(sizeof(char) * len + 1);
@@ -123,7 +130,7 @@ char	*get_next_line(int fd)
 	list = init_list(&head, fd);
 	if (!list)
 		return (0);
-	temp = init_s(list->s);
+	temp = init_s(list->s, fd);
 	if (!temp)
 	{
 		free_targetlist(&head, fd);
