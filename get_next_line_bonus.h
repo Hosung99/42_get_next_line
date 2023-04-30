@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:13 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 16:00:08 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 20:34:10 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
+# include <stdio.h>
 typedef struct s_list
 {
     char			s[BUFFER_SIZE + 1];

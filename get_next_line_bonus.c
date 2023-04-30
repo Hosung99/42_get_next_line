@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:02 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 19:00:19 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 21:12:12 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_targetlist(t_list **head, int fd)
 		return ;
 	temp = *head;
 	prev = *head;
-	while (temp->next)
+	while (temp)
 	{
 		if (temp->fd == fd)
 			break ;
@@ -45,7 +45,7 @@ t_list	*init_list(t_list **head, int fd)
 	t_list	*find;
 	t_list	*temp;
 
-	if (fd < 0)
+	if (fd < 0 || !head)
 		return (0);
 	temp = *head;
 	while (temp)
@@ -54,14 +54,14 @@ t_list	*init_list(t_list **head, int fd)
 			return (temp);
 		temp = temp->next;
 	}
-	if (!head)
-		return (0);
 	find = (t_list *)malloc(sizeof(t_list));
 	if (!find)
 		return (0);
 	find->fd = fd;
+	find->s[0] = 0;
 	find->next = 0;
 	ft_lstadd_back(head, find);
+	//printf("temp fd : %d head fd :%d \n",fd, (*head)->fd);
 	return (find);
 }
 
@@ -122,9 +122,17 @@ char	*get_next_line(int fd)
 	
 	list = init_list(&head, fd);
 	if (!list)
+	{
+		free_targetlist(&head, fd);
 		return (0);
+	}
 	temp = init_s(list->s);
-	if (!temp || has_newline(temp))
+	if (!temp)
+	{
+		free_targetlist(&head, fd);
+		return (0);
+	}
+	if (has_newline(temp))
 		return (temp);
 	if (!init_b(temp, &buff, &check, fd))
 	{
@@ -137,13 +145,18 @@ char	*get_next_line(int fd)
 		{
 			ft_strlcpy(list->s, &buff[ft_strlen(buff)], check + 1 - ft_strlen(buff));
 			temp = ft_strjoin(temp, buff, ft_strlen(buff));
-			break ;
+			if (!temp)
+				return (0);
+			free(buff);
+			return (temp);
 		}
 		temp = ft_strjoin(temp, buff, ft_strlen(buff));
+		if (!temp)
+			return (0);
 		check = do_read(buff, fd);
 	}
 	free(buff);
-	//free_targetlist(&head, fd);
+	free_targetlist(&head, fd);
 	return (temp);
 }
 
@@ -178,7 +191,7 @@ char	*get_next_line(int fd)
 // 		// printf("%s\n", line);
 // 		// printf("%p", line);
 // 		// free(line);
-// 		atexit(check_leak);
+// 		// atexit(check_leak);
 // 		// fd = open("b.txt",O_RDONLY);
 
 // 		// char *line2 = get_next_line(fd);
