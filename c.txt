@@ -1,1 +1,3 @@
-cncncn
+c
+cc
+ccc

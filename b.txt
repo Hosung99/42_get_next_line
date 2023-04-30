@@ -1,1 +1,3 @@
-bbbn
+b
+bb
+bbb

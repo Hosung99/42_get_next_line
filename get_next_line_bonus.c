@@ -6,38 +6,62 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:02 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/29 18:10:18 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 19:00:19 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-t_list	*find_fd(t_list *list, int fd)
+void	free_targetlist(t_list **head, int fd)
 {
-	while (list)
+	t_list	*prev;
+	t_list	*temp;
+
+	if (!(*head))
+		return ;
+	temp = *head;
+	prev = *head;
+	while (temp->next)
 	{
-		if (list->fd == fd)
-			return (list);
-		list = list->next;
+		if (temp->fd == fd)
+			break ;
+		prev = temp;
+		temp = temp->next;
 	}
-	return (0);
+	if (temp->fd == fd)
+	{
+		if (temp->next != 0)
+			prev->next = temp->next;
+		else
+			prev->next = 0;
+		if ((*head)->fd == temp->fd)
+			*head = temp->next;
+		free(temp);
+	}
 }
 
-t_list	*init_list(t_list *list, int fd)
+t_list	*init_list(t_list **head, int fd)
 {
-	t_list *find;
-	t_list *temp;
+	t_list	*find;
+	t_list	*temp;
 
-    if (fd < 0)
+	if (fd < 0)
+		return (0);
+	temp = *head;
+	while (temp)
+	{
+		if (temp->fd == fd)
+			return (temp);
+		temp = temp->next;
+	}
+	if (!head)
 		return (0);
 	find = (t_list *)malloc(sizeof(t_list));
 	if (!find)
 		return (0);
-	temp = find_fd(list, fd);
-	if (temp)
-		return (temp);
 	find->fd = fd;
-	ft_lstadd_back(&list, find);
+	find->next = 0;
+	ft_lstadd_back(head, find);
 	return (find);
 }
 
@@ -90,19 +114,23 @@ int	init_b(char *temp, char **buff, int *check, int fd)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list;
-	char		    *temp;
-	char		    *buff;
-	int			    check;
-
-    list = init_list(list, fd);
+	static t_list	*head;
+	t_list			*list;
+	char			*temp;
+	char			*buff;
+	int				check;
+	
+	list = init_list(&head, fd);
 	if (!list)
-        return (0);
+		return (0);
 	temp = init_s(list->s);
 	if (!temp || has_newline(temp))
 		return (temp);
 	if (!init_b(temp, &buff, &check, fd))
+	{
+		free_targetlist(&head, fd);
 		return (0);
+	}
 	while (check > 0)
 	{
 		if (has_newline(buff))
@@ -115,6 +143,7 @@ char	*get_next_line(int fd)
 		check = do_read(buff, fd);
 	}
 	free(buff);
+	//free_targetlist(&head, fd);
 	return (temp);
 }
 
@@ -127,21 +156,37 @@ char	*get_next_line(int fd)
 // #include <fcntl.h>
 // int main()
 // {
+// 		int	fd1;
+// 		int	fd2;
+// 		int	fd3;
+// 		fd1 = open("a.txt",O_RDONLY);
+// 		fd2 = open("b.txt",O_RDONLY);
+// 		fd3 = open("c.txt",O_RDONLY);
+// 		for (int i =0; i<3; i++)
+// 		{
+// 			char *line = get_next_line(fd1);
+// 			printf("%s", line);
+// 			free(line);
+// 			char *line2 = get_next_line(fd2);
+// 			printf("%s", line2);
+// 			free(line2);
+// 			char *line3 = get_next_line(fd3);
+// 			printf("%s", line3);
+// 			free(line3);
+// 		}
+// 		// char *line = get_next_line(fd1);
+// 		// printf("%s\n", line);
+// 		// printf("%p", line);
+// 		// free(line);
 // 		atexit(check_leak);
-// 		int	fd;
-// 		fd = open("a.txt",O_RDONLY);
-// 		char *line = get_next_line(fd);
-// 		printf("%p\n", line);
-// 		printf("%s\n", line);
-		
-// 		fd = open("b.txt",O_RDONLY);
+// 		// fd = open("b.txt",O_RDONLY);
 
-// 		char *line2 = get_next_line(fd);
-// 		printf("%p\n", line2);
-// 		printf("%s\n", line2);
-// 		fd = open("c.txt",O_RDONLY);
+// 		// char *line2 = get_next_line(fd);
+// 		// printf("%p\n", line2);
+// 		// printf("%s\n", line2);
+// 		// fd = open("c.txt",O_RDONLY);
 
-// 		char *line3 = get_next_line(fd);
-// 		printf("%p\n", line3);
-// 		printf("%s\n", line3);
+// 		// char *line3 = get_next_line(fd);
+// 		// printf("%p\n", line3);
+// 		// printf("%s\n", line3);
 // }

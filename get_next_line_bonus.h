@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:13 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/29 17:55:18 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/30 16:00:08 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 
 typedef struct s_list
 {
-    char     s[BUFFER_SIZE + 1];
+    char			s[BUFFER_SIZE + 1];
 	struct s_list	*next;
-    int             fd;
+	int				fd;
 }	t_list;
 
 char	*get_next_line(int fd);
@@ -36,6 +36,5 @@ int		ft_strlen(char *s);
 void	ft_strlcpy(char *dst, char *src, int dstsize);
 char	*ft_strjoin(char *s1, char *s2, int index);
 void	ft_lstadd_back(t_list **lst, t_list *new);
-
 
 #endif
