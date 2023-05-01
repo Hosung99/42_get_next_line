@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:32 by seoson            #+#    #+#             */
-/*   Updated: 2023/05/01 11:11:12 by seoson           ###   ########.fr       */
+/*   Updated: 2023/05/01 17:25:34 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	has_newline(char *temp)
 	return (0);
 }
 
-int	ft_strlen(char *s)
+int	s_len(char *s)
 {
 	int	cnt;
 
@@ -70,7 +70,7 @@ char	*ft_strjoin(char *s1, char *s2, int index)
 	int		i;
 	int		save;
 
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + index + 1));
+	str = (char *)malloc(sizeof(char) * (s_len(s1) + index + 1));
 	if (!str)
 	{
 		free(s1);
