@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:02 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 22:19:02 by seoson           ###   ########.fr       */
+/*   Updated: 2023/05/01 11:11:30 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,11 @@ t_list	*init_list(t_list **head, int fd)
 	find->next = 0;
 	if (!*head)
 		*head = find;
-	else
-	{
-		temp = *head;
-		while (temp->next)
-			temp = temp->next;
+	temp = *head;
+	while (temp->next && *head != find)
+		temp = temp->next;
+	if (*head != find)
 		temp->next = find;
-	}
 	return (find);
 }
 
@@ -83,22 +81,11 @@ char	*init_s(char *s, int fd)
 	temp = (char *)malloc(sizeof(char) * len + 1);
 	if (!temp)
 		return (0);
-	ft_strlcpy(temp, s, len + 1);
+	cpy(temp, s, len + 1);
 	while (s[total_len])
 		total_len++;
-	ft_strlcpy(s, &s[len], total_len + 1 - len);
+	cpy(s, &s[len], total_len + 1 - len);
 	return (temp);
-}
-
-int	do_read(char *buff, int fd)
-{
-	int		read_size;
-
-	read_size = (int)read(fd, buff, BUFFER_SIZE);
-	if (read_size <= 0)
-		return (read_size);
-	buff[read_size] = 0;
-	return (read_size);
 }
 
 int	init_b(char *temp, char **buff, int *check, int fd)
@@ -126,7 +113,7 @@ char	*get_next_line(int fd)
 	char			*temp;
 	char			*buff;
 	int				check;
-	
+
 	list = init_list(&head, fd);
 	if (!list)
 		return (0);
@@ -147,7 +134,7 @@ char	*get_next_line(int fd)
 	{
 		if (has_newline(buff))
 		{
-			ft_strlcpy(list->s, &buff[ft_strlen(buff)], check + 1 - ft_strlen(buff));
+			cpy(list->s, &buff[ft_strlen(buff)], check + 1 - ft_strlen(buff));
 			temp = ft_strjoin(temp, buff, ft_strlen(buff));
 			if (!temp)
 				free_targetlist(&head, fd);

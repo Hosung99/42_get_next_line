@@ -6,28 +6,11 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:24:32 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/30 22:09:59 by seoson           ###   ########.fr       */
+/*   Updated: 2023/05/01 11:11:12 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-// void	ft_lstadd_back(t_list **lst, t_list *new)
-// {
-// 	t_list	*temp;
-
-// 	temp = *lst;
-// 	if (!*lst)
-// 	{
-// 		*lst = new;
-// 		new->next = 0;
-// 		return ;
-// 	}
-// 	while (temp->next)
-// 		temp = temp->next;
-// 	temp->next = new;
-// 	new->next = 0;
-// }
 
 int	has_newline(char *temp)
 {
@@ -60,7 +43,7 @@ int	ft_strlen(char *s)
 	return (cnt);
 }
 
-void	ft_strlcpy(char *dst, char *src, int dstsize)
+void	cpy(char *dst, char *src, int dstsize)
 {
 	int	i;
 	int	length_src;
@@ -106,4 +89,15 @@ char	*ft_strjoin(char *s1, char *s2, int index)
 	str[save] = '\0';
 	free(s1);
 	return (str);
+}
+
+int	do_read(char *buff, int fd)
+{
+	int		read_size;
+
+	read_size = (int)read(fd, buff, BUFFER_SIZE);
+	if (read_size <= 0)
+		return (read_size);
+	buff[read_size] = 0;
+	return (read_size);
 }
