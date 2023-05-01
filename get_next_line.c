@@ -6,7 +6,7 @@
 /*   By: seoson <seoson@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 13:10:38 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/29 16:18:18 by seoson           ###   ########.fr       */
+/*   Updated: 2023/05/01 17:53:59 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,5 @@ char	*get_next_line(int fd)
 		temp = ft_strjoin(temp, buff, ft_strlen(buff));
 		check = do_read(buff, fd);
 	}
-	free(buff);
-	return (temp);
+	return (free(buff), temp);
 }
