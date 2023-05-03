@@ -46,10 +46,8 @@ int	ft_strlen(char *s)
 void	ft_strlcpy(char *dst, char *src, int dstsize)
 {
 	int	i;
-	int	length_src;
 
 	i = 0;
-	length_src = 0;
 	if (src && dst)
 	{
 		if (dstsize != 0)
